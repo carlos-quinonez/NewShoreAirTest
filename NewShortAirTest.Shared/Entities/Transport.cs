@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace NewShortAirTest.Shared.Entities;
 
-internal class Transport
+public class Transport
 {
+    public int Id { get; set; }
+
+    public string FlightCarrier { get; set; } = null!;
+
+    public string FlightNumber { get; set; } = null!;
 }

@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 
 namespace NewShortAirTest.Shared.Entities;
 
-internal class Journey
+public class Journey
 {
+    public int Id { get; set; }
+    public string Origin { get; set; } = null!;
+    public string Destination { get; set; } = null!;
+    public double Price { get; set; }
+    //public List<Flight>? Flights { get; set; }
 }
