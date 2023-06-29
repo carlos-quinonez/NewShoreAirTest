@@ -1,4 +1,5 @@
 ﻿using NewShortAirTest.Shared.Entities;
+using NewShortAirTest.Shared.Inputs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,4 +11,5 @@ namespace NewShortAirTest.Bussines.Flights;
 public interface IFlightBS
 {
     public Task<List<Flight>> GetAllAsync(int level);
+    public Task<Journey> GetJourneyAsync(JourneyInput journeyInput, int level);
 }

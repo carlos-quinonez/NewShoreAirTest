@@ -9,6 +9,7 @@ namespace NewShortAirTest.Shared.Entities;
 
 public class Flight
 {
+    [JsonIgnore]
     public int Id { get; set; }
 
     [JsonPropertyName("departureStation")]
@@ -18,14 +19,21 @@ public class Flight
     public string Destination { get; set; } = null!;
 
     [JsonPropertyName("price")]
-    public double Price { get; set; }
+    public decimal Price { get; set; }
+
+    [JsonPropertyName("flightCarrier")]
+    public string FlightCarrier { get; set; } = null!;
+
+    [JsonPropertyName("flightNumber")]
+    public string FlightNumber { get; set; } = null!;
     
+    //public Transport? Transport { get; set; }
 }
 
 /*
  * "": "MZL",
         "": "CTG",
-        "flightCarrier": "CO",
-        "flightNumber": "8002",
+        "": "CO",
+        "": "8002",
         "": 200
  */

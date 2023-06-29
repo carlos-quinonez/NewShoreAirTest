@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using NewShortAirTest.Bussines.Flights;
 using NewShortAirTest.Shared.Entities;
+using NewShortAirTest.Shared.Inputs;
 
 namespace NewShoreAirTest.API.Controllers;
 
@@ -22,5 +23,13 @@ public class FlightController : ControllerBase
     {
         Flights = await _flightBS.GetAllAsync(level);
         return Ok(Flights);
+    }
+
+    [HttpGet("journey/{level:int}")]
+    public async Task<ActionResult> GetJourney(int level, [FromQuery] JourneyInput journeyInput)
+    {
+        Journey journey = new Journey();
+        journey = await _flightBS.GetJourneyAsync(journeyInput, level);
+        return Ok(journey);
     }
 }
