@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-    <Nullable>enable</Nullable>
+    <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NewShortAirTest.Bussines\NewShortAirTest.Bussines.csproj" />
     <ProjectReference Include="..\NewShortAirTest.DataAccess\NewShortAirTest.DataAccess.csproj" />
   </ItemGroup>
 

@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using NewShortAirTest.Bussines.Flights;
 using NewShortAirTest.DataAccess.Data;
+using NewShortAirTest.DataAccess.Data.Flights;
+using NewShortAirTest.Shared.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +15,15 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<DataContext>(c => c.UseSqlServer("name=DB.NewShoreAir"));
 builder.Services.AddTransient<SeedDb>();
+
+string baseAddress = builder.Configuration.GetValue<string>("ApiUrl");
+builder.Services.AddSingleton(sp => new HttpClient { BaseAddress = new Uri(baseAddress) });
+
+builder.Services.AddTransient<IRepository, Repository>();
+// Bussines Components
+builder.Services.AddScoped<IFlightBS,FlightBS>();
+// DAL Components
+builder.Services.AddScoped<IFlightDAL,FlightDAL>();
 
 var app = builder.Build();
 
