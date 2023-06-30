@@ -90,7 +90,7 @@
 @code {
     public string Origin { get; set; } = "MAD";
     private string Destination { get; set; } = "MZL";
-    private int Level { get; set; } = 0;
+    private int Level { get; set; } = 2;
     private int MaxFlights { get; set; } = 0;
 
     public Journey? journey { get; set; }
@@ -107,7 +107,7 @@
     }
 
     private async Task LoadAsync()
-    {   //MAD-MZL
+    {   
         var url = $"http://localhost:5224/api/flights/journey?level={Level}&Origin={Origin.ToUpper()}&Destination={Destination.ToUpper()}&numberMaxFlight={MaxFlights}";
         var responseHttp = await repository.Get<Journey>(url);
         journey = responseHttp.Response;
