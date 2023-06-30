@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using NewShortAirTest.Bussines;
 using NewShortAirTest.Bussines.Flights;
 using NewShortAirTest.DataAccess.Data;
 using NewShortAirTest.DataAccess.Data.Flights;
@@ -25,6 +26,8 @@ builder.Services.AddScoped<IFlightBS,FlightBS>();
 // DAL Components
 builder.Services.AddScoped<IFlightDAL,FlightDAL>();
 
+builder.Services.AddAutoMapper(typeof(MappingProfiles));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,8 +38,8 @@ if (app.Environment.IsDevelopment())
 }
 
 
-SeedData(app);
-void SeedData(WebApplication app)
+//SeedData(app);
+/*void SeedData(WebApplication app)
 {
     IServiceScopeFactory? scopedFactory = app.Services.GetService<IServiceScopeFactory>();
 
@@ -45,10 +48,16 @@ void SeedData(WebApplication app)
         SeedDb? service = scope.ServiceProvider.GetService<SeedDb>();
         service!.SeedAsync().Wait();
     }
-}
+}*/
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials());
 
 app.Run();

@@ -1,0 +1,125 @@
+﻿@page "/journey/index"
+@using NewShortAirTest.Shared.Entities;
+@using NewShortAirTest.Shared.Repositories;
+
+@inject IRepository repository
+
+<div class="card">
+    <div class="card-header">
+        <span>
+            <i class="oi oi-globe"></i> Consulta Viajes
+        </span>
+    </div>
+    <div class="card-body">
+        <div class="form-row">
+            @if (inputsSonIguales)
+            {
+                <p style="color: red;">Origen y destino deben ser diferentes.</p>
+            }
+            <div class="col">
+                <label for="input1">Origen</label>
+                <input style="width: 100px;text-transform: uppercase;" maxlength="3" type="text" class="form-control" id="origin" placeholder="Origen" @bind-value="@Origin" @oninput="ValidarInputs" />
+            </div>
+            <div class="col">
+                <label for="input2">Destino</label>
+                <input style="width: 100px;text-transform: uppercase;" maxlength="3" type="text" class="form-control" id="destination" placeholder="Destino" @bind-value="@Destination" @oninput="ValidarInputs" />
+            </div>
+        </div>
+        
+        <div class="form-row mt-3">
+            <div class="col">
+                <label for="select3">Nivel</label>
+                @*<input style="width: 100px;" maxlength="1" id="input3" type="number" class="form-control" @bind="@Level" />*@
+                <select id="select3" class="form-control" style="width: 100px;" @bind="@Level">
+                    <option value="0">Nivel 0</option>
+                    <option value="1">Nivel 1</option>
+                    <option value="2">Nivel 2</option>
+                </select>
+            </div>
+            <div class="col">
+                <label for="input4">Numero Max Viajes</label>
+                <input id="input4" type="number" class="form-control" style="width: 100px;" @bind="@MaxFlights" />
+            </div>
+            <div class="col" style="margin-top:10px;">
+                <button class="btn btn-outline-primary" @onclick=@(() => OnSearchAsync())><i class="oi oi-map" /> Buscar</button>
+            </div>
+        </div>
+
+        @if (journey?.Flights is null)
+        {
+            <div>
+                No hay vuelos disponibles
+            </div>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th style="width:100px">Origen</th>
+                        <th style="width:100px">Destino</th>
+                        <th style="width:100px">Precio</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var flight in journey?.Flights!)
+                    {
+                        <tr>
+                            <td>
+                                @flight.Origin
+                            </td>
+                            <td>
+                                @flight.Destination
+                            </td>
+                            <td>
+                                @flight.Price
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <hr />
+            <label>Viaje de @journey?.Origin a @journey?.Destination</label>
+            <br/>
+            <label>PRECIO TOTAL: @journey?.Price</label>
+        }
+
+
+    </div>
+</div>
+@code {
+    public string Origin { get; set; } = "MAD";
+    private string Destination { get; set; } = "MZL";
+    private int Level { get; set; } = 0;
+    private int MaxFlights { get; set; } = 0;
+
+    public Journey? journey { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //await LoadAsync();
+    }
+    private bool inputsSonIguales;
+
+    private void ValidarInputs()
+    {
+        inputsSonIguales = (Origin == Destination);
+    }
+
+    private async Task LoadAsync()
+    {   //MAD-MZL
+        var url = $"http://localhost:5224/api/flights/journey?level={Level}&Origin={Origin.ToUpper()}&Destination={Destination.ToUpper()}&numberMaxFlight={MaxFlights}";
+        var responseHttp = await repository.Get<Journey>(url);
+        journey = responseHttp.Response;
+    }
+
+    private async Task OnSearchAsync()
+    {
+        ValidarInputs();
+        if (!inputsSonIguales)
+        {
+            await LoadAsync();
+        }
+        
+    }
+}

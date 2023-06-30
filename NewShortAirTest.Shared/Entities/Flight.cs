@@ -25,15 +25,6 @@ public class Flight
     public string FlightCarrier { get; set; } = null!;
 
     [JsonPropertyName("flightNumber")]
-    public string FlightNumber { get; set; } = null!;
-    
-    //public Transport? Transport { get; set; }
+    public string FlightNumber { get; set; } = null!;    
+   
 }
-
-/*
- * "": "MZL",
-        "": "CTG",
-        "": "CO",
-        "": "8002",
-        "": 200
- */

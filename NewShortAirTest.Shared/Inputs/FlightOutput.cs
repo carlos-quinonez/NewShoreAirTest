@@ -1,4 +1,4 @@
-﻿using NewShortAirTest.Shared.Inputs;
+﻿using NewShortAirTest.Shared.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,15 +6,18 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace NewShortAirTest.Shared.Entities;
+namespace NewShortAirTest.Shared.Inputs;
 
-public class Journey
+public class FlightOutput
 {
-    [JsonIgnore]
-    public int Id { get; set; }
+     [JsonPropertyName("departureStation")]
     public string Origin { get; set; } = null!;
+
+    [JsonPropertyName("arrivalStation")]
     public string Destination { get; set; } = null!;
+
+    [JsonPropertyName("price")]
     public decimal Price { get; set; }
-    public List<Flight>? Flights { get; set; }
-    //public List<FlightOutput>? Flights { get; set; }
+
+    public Transport? Transport { get; set; }
 }

@@ -25,11 +25,11 @@ public class FlightController : ControllerBase
         return Ok(Flights);
     }
 
-    [HttpGet("journey/{level:int}")]
-    public async Task<ActionResult> GetJourney(int level, [FromQuery] JourneyInput journeyInput)
+    [HttpGet("journey")]
+    public async Task<ActionResult> GetJourney(int level, [FromQuery] JourneyInput journeyInput,int numberMaxFlight)
     {
         Journey journey = new Journey();
-        journey = await _flightBS.GetJourneyAsync(journeyInput, level);
+        journey = await _flightBS.GetJourneyAsync(journeyInput, level, numberMaxFlight);
         return Ok(journey);
     }
 }
